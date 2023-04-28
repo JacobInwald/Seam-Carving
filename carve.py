@@ -4,12 +4,12 @@ import numpy as np
 def eng(i, j, img):
     if i>=len(img[0])-2 or i == 0 \
         or j>=len(img)-2 or j == 0:
-        return 10000000
+        return 1444
     sobel_hor = img[j-1][i-1] + 2*img[j][i-1] + img[j+1][i-1] + \
                 -img[j-1][i+1] + -2*img[j][i+1] + -img[j+1][i+1]
     sobel_ver = img[j-1][i-1] + 2*img[j-1][i] + img[j-1][i+1] + \
                 -img[j+1][i-1] + -2*img[j+1][i] + -img[j+1][i+1]
-    return sobel_hor + sobel_ver
+    return np.sqrt(sobel_hor**2 + sobel_ver**2)
 
 # img[h][w]
 def carve_vertical(img):
@@ -21,7 +21,7 @@ def carve_vertical(img):
     for j in range(h):
         for i in range(w):
             e[j][i] = eng(i,j,img)
-    e = e / 1050
+    e = e / 1444
     for i in range(w):
         c[0,i] = e[0,i]
         p[0,i] = (-1,-1)
@@ -107,9 +107,9 @@ def seam_carve(new_size, img):
     return seam_carve_hor(new_size[1], img)
     
 
-img = Image.open('photo.jpeg').convert("L")
+img = Image.open('tower.jpg').convert("L")
 img.show()
 
-img = seam_carve((img.width+10, img.height-10), img)
+img = seam_carve((img.width-20, img.height), img)
 
 img.show()
