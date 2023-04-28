@@ -108,7 +108,6 @@ def seam_carve(new_size, img):
     
 
 img = Image.open('photo.jpeg').convert("L")
-img = img.resize((img.width//4, img.height//4))
 img.show()
 
 img = seam_carve((img.width+10, img.height-10), img)
